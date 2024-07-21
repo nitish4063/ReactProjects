@@ -1,14 +1,16 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeTodo } from "../features/todo/todoSlice";
+import { removeTodo, updateTodo } from "../features/todo/todoSlice";
 
 function Todos() {
   const todoArr = useSelector((state) => state.todoArr);
   const dispatch = useDispatch();
 
+  if (todoArr.length === 0) return <div className="text-2xl">TODO'S</div>;
+
   return (
     <>
-      <div className="text-2xl">TODO's</div>
+      <div className="text-2xl">Your TODO's</div>
       <ul className="list-none">
         {todoArr.map((todoObj) => (
           <li
@@ -16,6 +18,15 @@ function Todos() {
             key={todoObj.id}
           >
             <div className="text-white">{todoObj.text}</div>
+
+            <button
+              type="button"
+              onClick={() => dispatch(updateTodo(todoObj))}
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            >
+              Update
+            </button>
+
             <button
               onClick={() => dispatch(removeTodo(todoObj.id))}
               className="text-white bg-red-500 border-0 py-1 px-4 focus:outline-none hover:bg-red-600 rounded text-md"
