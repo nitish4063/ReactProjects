@@ -2,14 +2,40 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
+import { useDispatch, useSelector } from "react-redux";
+import { add } from "../store/slice";
+import { getProducts } from "../store/productSlice";
+
+// import {addTemp} from '../store/slice'
+
 function Products() {
-  const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
+  const { data, status } = useSelector((state) => state.products);
+
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   fetch("https://fakestoreapi.com/products")
+  //     .then((res) => res.json())
+  //     .then((res) => setData(res));
+  // }, []);
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((res) => setData(res));
+    dispatch(getProducts());
   }, []);
+
+  if (status === "loading") {
+    return <h2>Loading....</h2>;
+  }
+
+  if (status === "error") {
+    return <h2>Something went wrong! Try Again Later</h2>;
+  }
+
+  const addToCart = (e) => {
+    dispatch(add(e));
+    // dispatch(addTemp(e))
+  };
 
   return (
     <>
@@ -31,7 +57,9 @@ function Products() {
                   <Card.Text>${product.price}</Card.Text>
                 </Card.Body>
                 <Card.Footer>
-                  <Button variant="primary">Add to Cart</Button>
+                  <Button onClick={() => addToCart(product)} variant="primary">
+                    Add to Cart
+                  </Button>
                 </Card.Footer>
               </Card>
             </div>
