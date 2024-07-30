@@ -1,6 +1,6 @@
 import "./App.css";
 // import config from './config/config'
-import {Header, Footer} from './components'
+import { Header, Footer } from "./components";
 
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
