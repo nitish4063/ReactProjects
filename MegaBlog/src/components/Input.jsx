@@ -20,7 +20,6 @@ const Input = forwardRef(function Input(
         {...props}
         id={id}
       />
-
     </div>
   );
 });
